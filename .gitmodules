@@ -1,0 +1,3 @@
+[submodule "gilly-network-stack"]
+	path = gilly-network-stack
+	url = https://github.com/AndrewGillisSoftware/gilly-network-stack.git
