@@ -24,6 +24,7 @@ class Game:
                     self.running = False
 
         self.scene.update()
+        pygame.display.update()
         self.clock.tick(FPS)
 
     def draw(self):
