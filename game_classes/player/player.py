@@ -17,6 +17,13 @@ class Player(pygame.sprite.Sprite):
 
         if keys[pygame.K_d]:
             self.rect.x += 1
+
+        if keys[pygame.K_w]:
+            self.rect.y += 1
+
+        if keys[pygame.K_s]:
+            self.rect.y -= 1
+    
     
     def update(self):
         self.input()
