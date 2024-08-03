@@ -14,10 +14,9 @@ class SpriteSheet():
             self.frames.append(self.__build_frame(i))
 
     def __build_frame(self, frame):
-        image = pygame.Surface((self.sprite_width, self.sprite_height)).convert_alpha()
+        image = pygame.Surface((self.sprite_width, self.sprite_height), pygame.SRCALPHA).convert_alpha()
         image.blit(self.sheet, (0, 0), ((frame * self.sprite_width), 0, self.sprite_width, self.sprite_height))
         image = pygame.transform.scale(image, (self.sprite_width * self.sprite_scale, self.sprite_height * self.sprite_scale))
-        image.set_colorkey((1,1,1))
 
         return image
     

@@ -11,5 +11,4 @@ class AnimatedSprite(pygame.sprite.Sprite):
     def update(self):
         self.sprite_sheet_animator.update()
         self.image = self.sprite_sheet_animator.get_frame()
-        self.rect.x += 1
-        
+         

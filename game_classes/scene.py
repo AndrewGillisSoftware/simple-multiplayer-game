@@ -13,20 +13,13 @@ class Scene:
         Entity([self.sprites], position=(100,100))
         Entity([self.sprites], position=(200,200))
 
-        self.player = Player([self.sprites])        
-        self.anim = AnimatedSprite([self.sprites],
-                                    "game_assets/tank/tank-tread_sprite-sheet.png",
-                                    12, (5,14), (100, 100), 10)
-        
-        self.anim.sprite_sheet_animator.play = True
-        self.anim.sprite_sheet_animator.loop = True
-        self.anim.sprite_sheet_animator.flip_animation = True
-        self.anim.sprite_sheet_animator.update_ms = 100
-
+        self.player = Player((100,100))
     
     def update(self):
+        self.player.update()
         self.sprites.update()
 
     def draw(self):
         self.app.screen.fill("lightblue")
         self.sprites.draw(self.app.screen)
+        self.player.draw(self.app)
