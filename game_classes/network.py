@@ -3,7 +3,7 @@ from gilly_network_stack.client_api import *
 
 #TODO set __ct.server_active_clients[0] to be the host
 class Network:
-    __inbox:MailParcel = []
+    __inbox = []
     ct:ClientTransport = ClientTransport()
 
     def __init__(self):
@@ -27,12 +27,8 @@ class Network:
             
     
     def broadcast_event(self, id, event): 
-        try:
-            ips_to_send_to = self.ct.server_active_clients.remove(self.ct.client_address)
-            self.ct.broadcast_parcel(id, ips_to_send_to, event)
-        except:
-            #print("awaiting active clients")
-            pass
+        ips_to_send_to = self.ct.server_active_clients
+        self.ct.broadcast_parcel(id, ips_to_send_to, event)
 
     def get_mail(self):
         if len(self.__inbox) == 0:
@@ -46,7 +42,11 @@ class Network:
             return 
         
         self.__inbox.pop(0)
-        return       
+        return
+    
+    def clear_inbox(self):
+        self.__inbox.clear()
+        return
 
     def __net_work(self):
         while(True):

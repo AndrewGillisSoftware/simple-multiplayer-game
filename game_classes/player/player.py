@@ -98,11 +98,18 @@ class Player():
 
     def input_from_net(self):
         mail:MailParcel = NETWORK.get_mail()
+
         if not mail or mail.ID != TANK_MOVEMENT:
             return
+        
+        if mail.from_address == NETWORK.ct.client_address:
+            NETWORK.pop_mail()
+            return
+        
         print("INPUT FROM NET RECIEVED MAIL. MAIL MESSAGE:")
         print(mail.message)
         NETWORK.pop_mail()
+        NETWORK.clear_inbox()
         self.x = int(mail.message.split(",")[0])
         self.y = int(mail.message.split(",")[1])
         
