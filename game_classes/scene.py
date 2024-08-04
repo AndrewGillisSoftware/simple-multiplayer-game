@@ -14,12 +14,17 @@ class Scene:
         Entity([self.sprites], position=(200,200))
 
         self.player = Player((100,100))
+
+        self.player1 = Player((139,100),True,1)
     
     def update(self):
         self.player.update()
         self.sprites.update()
 
+        self.player1.update()
+
     def draw(self):
         self.app.screen.fill("lightblue")
         self.sprites.draw(self.app.screen)
         self.player.draw(self.app)
+        self.player1.draw(self.app)

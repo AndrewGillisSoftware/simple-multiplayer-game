@@ -1,15 +1,18 @@
 import pygame
+from game_classes.network import *
 from game_classes.globals import *
 from game_classes.sprite_sheet.animated_sprite import *
 
 class Player():
-    def __init__(self, position):
-
+    def __init__(self, position, is_network_controled = False, uid=0):
         self.player_sprites = pygame.sprite.Group()
-
-        self.position = list(position)
+        
+        self.x = position[0]
+        self.y = position[1]
         self.tank_rotation = 0
         self.gunner_rotation = 0
+        self.is_network_controled = is_network_controled
+        self.uid = uid
 
         self.speed = PIXEL * 1
 
@@ -29,20 +32,22 @@ class Player():
         self.right_tread.sprite_sheet_animator.update_ms = 100
 
     def __forward(self):
-        self.position[1] -= self.speed
+        self.y -= self.speed
         self.left_tread.sprite_sheet_animator.flip_animation = False
         self.right_tread.sprite_sheet_animator.flip_animation = False
 
     def __left(self):
         self.tank_rotation -= 1
         self.tank_rotation %= 360
+        self.x -= self.speed
 
     def __right(self):
         self.tank_rotation += 1
         self.tank_rotation %= 360
-    
+        self.x += self.speed
+
     def __backward(self):
-        self.position[1] += self.speed
+        self.y += self.speed
         self.left_tread.sprite_sheet_animator.flip_animation = True
         self.right_tread.sprite_sheet_animator.flip_animation = True
     
@@ -78,32 +83,56 @@ class Player():
             self.left_tread.sprite_sheet_animator.play = True
             self.right_tread.sprite_sheet_animator.play = True
         
-        print(self.tank_rotation)
+        #print(self.tank_rotation)
 
-        self.__turn_gun(pygame.mouse.get_pos())
 
-        # Update the positions of the components
-        self.__update_positions()
-        self.__rotate_tank()
-    
     def __rotate_tank(self):
         pass
         
     def __update_positions(self):
         # Update positions of the components relative to the player's position
-        self.body.rect.topleft = (self.position[0] + (PIXEL * 2), self.position[1] + (PIXEL))
-        self.gun.rect.topleft = (self.position[0] + (4 * PIXEL), self.position[1] - (5 * PIXEL))
-        self.left_tread.rect.topleft = (self.position[0], self.position[1])
-        self.right_tread.rect.topleft = (self.position[0] + (9 * PIXEL), self.position[1])
+        self.body.rect.topleft = (self.x + (PIXEL * 2), self.y + (PIXEL))
+        self.gun.rect.topleft = (self.x + (4 * PIXEL), self.y - (5 * PIXEL))
+        self.left_tread.rect.topleft = (self.x, self.y)
+        self.right_tread.rect.topleft = (self.x + (9 * PIXEL), self.y)
 
+    def input_from_net(self):
+        mail:MailParcel = NETWORK.get_mail()
+        if not mail or mail.ID != TANK_MOVEMENT:
+            return
+        print("INPUT FROM NET RECIEVED MAIL. MAIL MESSAGE:")
+        print(mail.message)
+        NETWORK.pop_mail()
+        self.x = int(mail.message.split(",")[0])
+        self.y = int(mail.message.split(",")[1])
+        
     def update(self):
-        self.input()  # Handle player input and movement
+        if not self.is_network_controled:
+            self.input()  # Handle player input and movement
+        else:
+
+           
+            self.input_from_net()
+            
+
+        self.__turn_gun(pygame.mouse.get_pos())
+        # Update the positions of the components
+        self.__update_positions()
+        self.__rotate_tank()
+    
 
         # Update all components
         self.left_tread.update()
         self.right_tread.update()
         self.gun.update()
         self.body.update()
+
+        if not self.is_network_controled:
+            self.broadcast_position()
+
+    def broadcast_position(self):
+        NETWORK.broadcast_event(TANK_MOVEMENT,f"{self.x},{self.y}")
+        
 
     def draw(self, app):
         # Draw the components
