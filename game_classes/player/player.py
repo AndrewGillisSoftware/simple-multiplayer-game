@@ -8,6 +8,9 @@ class Player():
         self.player_sprites = pygame.sprite.Group()
 
         self.position = list(position)
+        self.tank_rotation = 0
+        self.gunner_rotation = 0
+
         self.speed = PIXEL * 1
 
         self.left_tread = AnimatedSprite(self.player_sprites, 
@@ -25,24 +28,68 @@ class Player():
         self.right_tread.sprite_sheet_animator.current_frame = 6
         self.right_tread.sprite_sheet_animator.update_ms = 100
 
+    def __forward(self):
+        self.position[1] -= self.speed
+        self.left_tread.sprite_sheet_animator.flip_animation = False
+        self.right_tread.sprite_sheet_animator.flip_animation = False
+
+    def __left(self):
+        self.tank_rotation -= 1
+        self.tank_rotation %= 360
+
+    def __right(self):
+        self.tank_rotation += 1
+        self.tank_rotation %= 360
+    
+    def __backward(self):
+        self.position[1] += self.speed
+        self.left_tread.sprite_sheet_animator.flip_animation = True
+        self.right_tread.sprite_sheet_animator.flip_animation = True
+    
+    def __no_movement(self):
+        self.left_tread.sprite_sheet_animator.play = False
+        self.right_tread.sprite_sheet_animator.play = False
+
+    def __turn_gun(self, global_mouse_position):
+        pass
+
     def input(self):
         keys = pygame.key.get_pressed()
 
+        made_movement = False
+
         # Basic movement logic
         if keys[pygame.K_a]:
-            self.position[0] -= self.speed
+            self.__left()
+            made_movement = True
         if keys[pygame.K_d]:
-            self.position[0] += self.speed
+            self.__right()
+            made_movement = True
         if keys[pygame.K_w]:
-            self.position[1] -= self.speed
+            self.__forward()
+            made_movement = True
         if keys[pygame.K_s]:
-            self.position[1] += self.speed
+            self.__backward()
+            made_movement = True
+        
+        if not made_movement:
+            self.__no_movement()
+        else:
+            self.left_tread.sprite_sheet_animator.play = True
+            self.right_tread.sprite_sheet_animator.play = True
+        
+        print(self.tank_rotation)
+
+        self.__turn_gun(pygame.mouse.get_pos())
 
         # Update the positions of the components
-        self.update_positions()
+        self.__update_positions()
+        self.__rotate_tank()
     
-    
-    def update_positions(self):
+    def __rotate_tank(self):
+        pass
+        
+    def __update_positions(self):
         # Update positions of the components relative to the player's position
         self.body.rect.topleft = (self.position[0] + (PIXEL * 2), self.position[1] + (PIXEL))
         self.gun.rect.topleft = (self.position[0] + (4 * PIXEL), self.position[1] - (5 * PIXEL))
@@ -61,6 +108,3 @@ class Player():
     def draw(self, app):
         # Draw the components
         self.player_sprites.draw(app.screen)
-
-
- 

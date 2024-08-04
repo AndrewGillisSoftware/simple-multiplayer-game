@@ -5,6 +5,7 @@ class SpriteSheetAnimator():
     def __init__(self, sprite_sheet: SpriteSheet):
         self.__current_image = sprite_sheet.get_frame(0)
         self.__sprite_sheet = sprite_sheet
+        self.original_image = sprite_sheet.get_frame(0)
         self.current_frame = 0
         self.play = False
         self.stop_at_frame = None
