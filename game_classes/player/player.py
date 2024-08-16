@@ -21,8 +21,8 @@ class Player():
                                           12, (5,14), (0, 0), SCALE)
         self.right_tread = AnimatedSprite(self.player_sprites, "game_assets/tank/tank-tread_sprite-sheet.png",
                                           12, (5,14), (0, 0), SCALE)
-        self.body = AnimatedSprite(self.player_sprites, "game_assets/tank/tank-body.png", 1, (10, 12), (0, 0), SCALE)
-        self.gun = AnimatedSprite(self.player_sprites, "game_assets/tank/tank-gun.png", 1, (6, 16), (0, 0), SCALE)
+        self.body = AnimatedSprite(self.player_sprites, "game_assets/tank/tank-body_sprite-sheet.png", 9, (10, 12), (0, 0), SCALE)
+        self.gun = AnimatedSprite(self.player_sprites, "game_assets/tank/tank-gun_sprite-sheet.png", 9, (6, 16), (0, 0), SCALE)
 
         self.left_tread.sprite_sheet_animator.play = True
         self.left_tread.sprite_sheet_animator.update_ms = 100
@@ -30,6 +30,11 @@ class Player():
         self.right_tread.sprite_sheet_animator.play = True
         self.right_tread.sprite_sheet_animator.current_frame = 6
         self.right_tread.sprite_sheet_animator.update_ms = 100
+
+        self.body.sprite_sheet_animator.play = True
+        self.gun.sprite_sheet_animator.play = True
+        self.body.sprite_sheet_animator.update_ms = 5000
+        self.gun.sprite_sheet_animator.update_ms = 5000
 
     def __forward(self):
         self.y -= self.speed
