@@ -22,7 +22,7 @@ class Network:
     def __find_players(self):
         while True:
             self.ct.request_active_clients()
-            print("REQUESTING")
+            d_print("REQUESTING")
             time.sleep(5)
             
     
@@ -33,8 +33,8 @@ class Network:
     def get_mail(self):
         if len(self.__inbox) == 0:
             return None
-        print("GET MAIL IN NETWORK.PY RECIEVED MAIL:")
-        print(f"{self.__inbox}")
+        d_print("GET MAIL IN NETWORK.PY RECIEVED MAIL:")
+        d_print(f"{self.__inbox}")
         return self.__inbox[0]            
 
     def pop_mail(self):
@@ -56,10 +56,10 @@ class Network:
             parcel = self.ct.next_parcel() #recieves parcel if all partials are here
 
             if parcel:
-                print(str(parcel))
+                d_print(str(parcel))
                 self.__inbox.append(parcel)
 
             if len(self.ct.server_active_clients) > 0:
-                print(self.ct.server_active_clients)
+                d_print(self.ct.server_active_clients)
 
 NETWORK = Network()

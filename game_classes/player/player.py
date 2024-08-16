@@ -83,7 +83,7 @@ class Player():
             self.left_tread.sprite_sheet_animator.play = True
             self.right_tread.sprite_sheet_animator.play = True
         
-        #print(self.tank_rotation)
+        #d_print(self.tank_rotation)
 
 
     def __rotate_tank(self):
@@ -106,8 +106,8 @@ class Player():
             NETWORK.pop_mail()
             return
         
-        print("INPUT FROM NET RECIEVED MAIL. MAIL MESSAGE:")
-        print(mail.message)
+        d_print("INPUT FROM NET RECIEVED MAIL. MAIL MESSAGE:")
+        d_print(mail.message)
         NETWORK.pop_mail()
         NETWORK.clear_inbox()
         self.x = int(mail.message.split(",")[0])
