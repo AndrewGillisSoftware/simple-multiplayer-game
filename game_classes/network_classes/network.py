@@ -13,7 +13,7 @@ class Network:
         self.ct.connect(internet_protocal_address)
 
         # Start Checking for mail
-        networking_thread = threading.Thread(target=self.__net_work)
+        networking_thread = threading.Thread(target=self.__network_handler)
         networking_thread.start()
         finding_players_thread = threading.Thread(target=self.__find_players)
         finding_players_thread.start()
@@ -48,7 +48,7 @@ class Network:
         self.__inbox.clear()
         return
 
-    def __net_work(self):
+    def __network_handler(self):
         while(True):
             if self.ct.connected: 
                 self.ct.listen() #populate CT buffers

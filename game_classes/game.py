@@ -1,14 +1,15 @@
 import pygame
 import sys
 from game_classes.globals import *
-from game_classes.scene import Scene
+from game_classes.scenes.main_menu_scene import *
+from game_classes.scenes.level_0_scene import *
 
 class Game:
     def __init__(self):
         pygame.init()
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.clock = pygame.time.Clock()
-        self.scene = Scene(self)
+        self.scene = MainMenuScene(self)
 
     def run(self):
         self.running = True

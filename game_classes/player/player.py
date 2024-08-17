@@ -1,5 +1,5 @@
 import pygame
-from game_classes.network import *
+from game_classes.network_classes.network import *
 from game_classes.globals import *
 from game_classes.sprite_sheet.animated_sprite import *
 
