@@ -4,7 +4,7 @@ from game_classes.game import *
 
 if __name__ == "__main__":
 
-    d_print("[STARTING CLIENT]")
+    dv_print("[STARTING CLIENT]")
     server_ip = input("IP:")
     NETWORK.connect(server_ip)    
     NETWORK.ct.client_address = ""

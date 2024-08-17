@@ -111,8 +111,8 @@ class Player():
             NETWORK.pop_mail()
             return
         
-        d_print("INPUT FROM NET RECIEVED MAIL. MAIL MESSAGE:")
-        d_print(mail.message)
+        dv_print("INPUT FROM NET RECIEVED MAIL. MAIL MESSAGE:")
+        dv_print(mail.message)
         NETWORK.pop_mail()
         NETWORK.clear_inbox()
         self.x = int(mail.message.split(",")[0])
